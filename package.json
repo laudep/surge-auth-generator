@@ -29,6 +29,10 @@
     "authentication"
   ],
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/laudep/surge-auth-generator/issues"
+  },
+  "homepage": "https://github.com/laudep/surge-auth-generator#readme",
   "devDependencies": {
     "@types/app-root-path": "^1.2.4",
     "@types/jest": "^26.0.10",
