@@ -1,41 +1,40 @@
-import rewire = require("rewire");
+import rewire = require('rewire');
 
 const lib = rewire('../index');
-const getCredentialString = lib.__get__("getCredentialString");
+const getCredentialString = lib.__get__('getCredentialString');
 
 const testCredential = {
-    username: 'test',
-    password: 'test'
+  username: 'test',
+  password: 'test',
 };
 const testCredentialString = 'test:test';
 
 const johnDoeCredential = {
-    username: 'john',
-    password: 'doe',
-    caseInsensitive: true
+  username: 'john',
+  password: 'doe',
+  caseInsensitive: true,
 };
 
 const johnDoeCredentialString = `john:doe\nJohn:doe\njOhn:doe\nJOhn:doe\njoHn:doe\nJoHn:doe\njOHn:doe\nJOHn:doe\njohN:doe\nJohN:doe\njOhN:doe\nJOhN:doe\njoHN:doe\nJoHN:doe\njOHN:doe\nJOHN:doe`;
 
-
 test('standard case sensitive credentials to string', () => {
-    expect(getCredentialString(testCredential)).toEqual(testCredentialString);
+  expect(getCredentialString(testCredential)).toEqual(testCredentialString);
 });
-
 
 test('empty credentials to string', () => {
-    expect(getCredentialString()).toEqual(':');
+  expect(getCredentialString()).toEqual(':');
 });
 
-
 test('case insensitive credentials to string', () => {
-    expect(getCredentialString(johnDoeCredential)).toEqual(johnDoeCredentialString);
+  expect(getCredentialString(johnDoeCredential)).toEqual(
+    johnDoeCredentialString,
+  );
 });
 
 test('username only to string', () => {
-    expect(getCredentialString({ username: 'foo' })).toEqual('foo:');
+  expect(getCredentialString({ username: 'foo' })).toEqual('foo:');
 });
 
 test('password only to string', () => {
-    expect(getCredentialString({ password: 'bar' })).toEqual(':bar');
+  expect(getCredentialString({ password: 'bar' })).toEqual(':bar');
 });
