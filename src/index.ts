@@ -8,12 +8,12 @@ import appRoot = require('app-root-path');
  * @interface Credential
  */
 interface Credential {
-  /** authentication username */
-  username?: string;
-  /** authentication password */
-  password?: string;
-  /** whether the username should be case insensitive during authentication */
-  caseInsensitive?: boolean;
+    /** authentication username */
+    username?: string;
+    /** authentication password */
+    password?: string;
+    /** whether the username should be case insensitive during authentication */
+    caseInsensitive?: boolean;
 }
 
 /**
@@ -24,26 +24,26 @@ interface Credential {
  *  @license {@link https://creativecommons.org/licenses/by-sa/3.0/|Creative Commons licence 3.0}
  */
 const getAllCasePermutations = (input: string | undefined): string[] => {
-  if (!input) return [];
-  const characters = input.split('');
-  // amount of possible case combinations are equal to length squared
-  const combinationCount = Math.pow(input.length, 2);
+    if (!input) return [];
+    const characters = input.split('');
+    // amount of possible case combinations are equal to length squared
+    const combinationCount = Math.pow(input.length, 2);
 
-  const stringPermutations: string[] = [];
-  for (let permIndex = 0; permIndex < combinationCount; permIndex++) {
-    // update the capitalization depending on the current permutation
-    /* tslint:disable:no-bitwise */
-    characters.reduce((permutation, character, charIndex) => {
-      characters[charIndex] =
-        permutation & 1 ? character.toUpperCase() : character.toLowerCase();
-      return permutation >> 1;
-    }, permIndex);
-    /* tslint:enable:no-bitwise */
+    const stringPermutations: string[] = [];
+    for (let permIndex = 0; permIndex < combinationCount; permIndex++) {
+        // update the capitalization depending on the current permutation
+        /* tslint:disable:no-bitwise */
+        characters.reduce((permutation, character, charIndex) => {
+            characters[charIndex] =
+                permutation & 1 ? character.toUpperCase() : character.toLowerCase();
+            return permutation >> 1;
+        }, permIndex);
+        /* tslint:enable:no-bitwise */
 
-    const result = characters.join('');
-    stringPermutations.push(result);
-  }
-  return stringPermutations;
+        const result = characters.join('');
+        stringPermutations.push(result);
+    }
+    return stringPermutations;
 };
 
 /**
@@ -55,13 +55,13 @@ const getAllCasePermutations = (input: string | undefined): string[] => {
  * getCredentialString({username: 'foo', password: 'bar', isCaseInsensitive: false});
  */
 const getCredentialString = (credential: Credential) => {
-  const { username, password, caseInsensitive } = credential || '';
+    const { username, password, caseInsensitive } = credential || '';
 
-  return caseInsensitive
-    ? getAllCasePermutations(username)
-        .map((name) => `${name}:${password || ''}`)
-        .join('\n')
-    : `${username || ''}:${password || ''}`;
+    return caseInsensitive
+        ? getAllCasePermutations(username)
+            .map((name) => `${name}:${password || ''}`)
+            .join('\n')
+        : `${username || ''}:${password || ''}`;
 };
 
 /**
@@ -71,20 +71,20 @@ const getCredentialString = (credential: Credential) => {
  * @returns promise resolving in the full path of the written file
  */
 export const writeAuthFile = (
-  content: string,
-  directory: string | undefined,
+    content: string,
+    directory: string | undefined,
 ): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const outPath = path.resolve(directory ? directory : '', 'AUTH');
-    fs.writeFile(outPath, content, (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        console.log(`File generated at ${outPath}`);
-        resolve(outPath);
-      }
+    new Promise((resolve, reject) => {
+        const outPath = path.resolve(directory ? directory : '', 'AUTH');
+        fs.writeFile(outPath, content, (error) => {
+            if (error) {
+                reject(error);
+            } else {
+                console.log(`File generated at ${outPath}`);
+                resolve(outPath);
+            }
+        });
     });
-  });
 
 /**
  * @description Write an AUTH file with given credentials
@@ -92,39 +92,41 @@ export const writeAuthFile = (
  * @param [directory=require.main.filename] the string for which to determine permutations (defaults to project root)
  */
 export const generate = (
-  credentials: Credential | Credential[],
-  directory?: string,
+    credentials: Credential | Credential[],
+    directory?: string,
 ): Promise<string> =>
-  new Promise(async (resolve, reject) => {
-    console.log('Generating AUTH file...');
-    if (!directory && typeof require.main !== 'undefined') {
-      // set output directory to app root when no directory specified
-      directory = appRoot.path;
-    } else if (!directory) {
-      directory = '';
-    }
-    directory = path.resolve(directory);
+    new Promise(async (resolve, reject) => {
+        console.log('Generating AUTH file...');
+        if (!directory && typeof require.main !== 'undefined') {
+            // set output directory to app root when no directory specified
+            directory = appRoot.path;
+        } else if (!directory) {
+            directory = '';
+        }
+        directory = path.resolve(directory);
 
-    let fileContents = '';
-    if (Array.isArray(credentials)) {
-      fileContents = credentials
-        .map((credential) => getCredentialString(credential))
-        .join('\n');
-    } else {
-      const { username, password, caseInsensitive } = credentials;
-      console.log(
-        `${username ? `Set username: ${username}` : 'No username set.'} (${
-          caseInsensitive ? 'not ' : ''
-        }case sensitive)`,
-      );
-      console.log(
-        `${password ? `Set password: ${password}` : 'No password set.'}`,
-      );
+        let fileContents = '';
+        if (Array.isArray(credentials)) {
+            fileContents = credentials
+                .map((credential) => getCredentialString(credential))
+                .join('\n');
+        } else {
+            const { username, password, caseInsensitive } = credentials;
+            const caseSensitiveString = ` (${
+                caseInsensitive ? 'not ' : ''
+                }case sensitive)`;
+            console.log(
+                `${username
+                    ? `Set username: ${username}${username ? caseSensitiveString : ''}`
+                    : 'No username set.'} (${caseSensitiveString})`);
+            console.log(
+                `${password ? `Set password: ${password}` : 'No password set.'}`,
+            );
 
-      fileContents = getCredentialString(credentials);
-    }
+            fileContents = getCredentialString(credentials);
+        }
 
-    writeAuthFile(fileContents, directory)
-      .then((res) => resolve(res))
-      .catch((error) => reject(error));
-  });
+        writeAuthFile(fileContents, directory)
+            .then((res) => resolve(res))
+            .catch((error) => reject(error));
+    });
