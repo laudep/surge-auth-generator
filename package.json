@@ -1,6 +1,6 @@
 {
   "name": "surge-auth-generator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generate AUTH files for basic authentication in surge.sh projects",
   "author": "Laurens Deprost",
   "main": "lib/index.js",
