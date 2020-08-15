@@ -1,1 +1,1 @@
-surge.sh AUTH file generator
+# surge.sh AUTH file generator
