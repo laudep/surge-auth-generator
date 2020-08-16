@@ -1,8 +1,3 @@
-// import rewire = require('rewire');
-
-// const lib = rewire('../index');
-// const getCredentialString = lib.__get__('getCredentialString');
-
 import { getCredentialString } from '../index';
 const testCredential = {
   username: 'test',

@@ -1,7 +1,3 @@
-// import rewire = require('rewire');
-
-// const lib = rewire('../index');
-// const getAllCasePermutations = lib.__get__('getAllCasePermutations');
 import { getAllCasePermutations } from '../index';
 
 test('empty string case permutations', () => {

@@ -3,7 +3,6 @@ import path = require('path');
 import del = require('del');
 import appRoot = require('app-root-path');
 import { generate, getCredentialString, writeAuthFile } from '../index';
-import { resolve } from 'app-root-path';
 
 const tmpDir = path.resolve(__dirname, 'tmp');
 const testDir1 = path.resolve(__dirname, 'tmp/test1');
