@@ -145,6 +145,5 @@ export const generate = (
     }
 
     writeAuthFile(fileContents, directory)
-      .then((res) => resolve(res))
-      .catch((error) => reject(error));
+      .then((res) => resolve(res));
   });

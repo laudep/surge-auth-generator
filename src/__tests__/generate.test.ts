@@ -120,7 +120,7 @@ test('write auth file without specifying path', async () => {
 });
 
 test('generate auth file with incorrect path and empty username', () => {
-  expect(() => generate({ username: '' }, 'X:::')).rejects.toEqual(
+  expect(() => generate({ username: '' }, '/-+/:;/')).rejects.toEqual(
     'Invalid path',
   );
 });
