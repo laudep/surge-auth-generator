@@ -7,7 +7,7 @@
 </p>
 
 [![NPM Version][npm-image]][npm-url]
-
+[![codecov](https://codecov.io/gh/laudep/surge-auth-generator/branch/master/graph/badge.svg)](https://codecov.io/gh/laudep/surge-auth-generator)
 ## Description
 surge-auth-generator helps generate AUTH files for setting up basic authentication on surge.sh projects.  
 It makes supporting multiple- and/or case insensitive users a breeze.  
@@ -101,3 +101,4 @@ const generate: (credentials?: Credential | Credential[], directory?: string | u
 
 [npm-image]: https://img.shields.io/npm/v/surge-auth-generator.svg
 [npm-url]: https://www.npmjs.com/package/surge-auth-generator
+[codecov-badge]: https://codecov.io/gh/laudep/surge-auth-generator/branch/master/graph/badge.svg
