@@ -17,6 +17,6 @@ test('abc case permutations', () => {
     'abC',
     'AbC',
     'aBC',
-    'ABC'
+    'ABC',
   ]);
 });
