@@ -1,5 +1,10 @@
-# surge-auth-generator
-> Generate AUTH files for basic authentication in surge.sh projects
+<p align="center">
+  <img height="250" src="https://surge.sh/images/logos/svg/surge-logo.svg">
+</p>
+<h1 align="center"> surge-auth-generator </h1>
+<p align="center">
+  <b>Generate AUTH files for basic authentication in surge.sh projects</b>
+</p>
 
 [![NPM Version][npm-image]][npm-url]
 
@@ -10,6 +15,51 @@ $ npm install --save-dev surge-auth-generator
 ```
 
 ## Usage
+### Import
+``` js
+const authGenerator = require('surge-auth-generator');
+authGenerator.generate(credentials, directory);
+```
+or 
+``` js
+const { generate } = require('surge-auth-generator');
+generate(credentials, directory);
+```
+### Examples
+
+Create AUTH file in project root for john:doe.
+``` js
+authGenerator.generate({
+    username: 'john',
+    password: 'doe'
+});
+```
+
+Create AUTH file with case insensitive username in project root  
+(so authentication will work for 'John', 'john', 'JOHN', ...).
+``` js
+authGenerator.generate({
+    username: 'john',
+    password: 'doe',
+    caseInsensitive: 'true'
+});
+```
+
+Create AUTH file in dist folder for multiple users.
+
+``` js
+authGenerator.generate(
+    [{
+        username: 'john',
+        password: 'doe'
+    }, {
+        username: 'jane',
+        password: 'doe'
+    }, {
+        username: 'foo',
+        password: 'bar'
+    }], "dist");
+```
 ### Credentials
 The package works with a custom object type for authentication credentials.  
 Each property is optional and can be left out.  
@@ -27,23 +77,17 @@ interface Credential {
     caseInsensitive?: boolean;
 }
 ```
+
+### Generate function
+AUTH files can be created using the generate function.  
+The method takes in a credential object or an array of credentials and an optional output path.  
+All parameters are optional.  
+The output path defaults to the current project's root directory.
+
 ``` js
 const generate: (credentials?: Credential | Credential[], directory?: string | undefined) => Promise<string>
-@description — Write an AUTH file with given credentials
-
-@param credentials — the credentials to be written
-
-@param directory — the output directory (defaults to project root)
-``` js
-AUTH files can be created using the generate method.
-All parameters are optional.
-``` js
-const authGenerator = require('surge-auth-generator');
-authGenerator.generate({
-    username: 'john',
-    password: 'doe'
-});
 ```
+
 
 ## License
 
