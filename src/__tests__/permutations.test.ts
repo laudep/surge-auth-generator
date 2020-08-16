@@ -1,7 +1,8 @@
-import rewire = require('rewire');
+// import rewire = require('rewire');
 
-const lib = rewire('../index');
-const getAllCasePermutations = lib.__get__('getAllCasePermutations');
+// const lib = rewire('../index');
+// const getAllCasePermutations = lib.__get__('getAllCasePermutations');
+import { getAllCasePermutations } from '../index';
 
 test('empty string case permutations', () => {
   expect(getAllCasePermutations('')).toEqual([]);
@@ -16,7 +17,6 @@ test('abc case permutations', () => {
     'abC',
     'AbC',
     'aBC',
-    'ABC',
-    'abc',
+    'ABC'
   ]);
 });

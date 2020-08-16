@@ -23,8 +23,10 @@ interface Credential {
  * @see adopted from {@link https://stackoverflow.com/a/27995370|stackoverflow answer}
  *  @license {@link https://creativecommons.org/licenses/by-sa/3.0/|Creative Commons licence 3.0}
  */
-const getAllCasePermutations = (input: string | undefined): string[] => {
-    if (!input) return [];
+export const getAllCasePermutations = (input: string | undefined): string[] => {
+    if (!input || typeof input === undefined) {
+        return [];
+    }
     const characters = input.split('');
     // amount of possible case combinations are equal to length squared
     const combinationCount = Math.pow(input.length, 2);
@@ -43,7 +45,7 @@ const getAllCasePermutations = (input: string | undefined): string[] => {
         const result = characters.join('');
         stringPermutations.push(result);
     }
-    return stringPermutations;
+    return Array.from(new Set(stringPermutations));
 };
 
 /**
@@ -54,8 +56,8 @@ const getAllCasePermutations = (input: string | undefined): string[] => {
  * // returns 'foo:bar'
  * getCredentialString({username: 'foo', password: 'bar', isCaseInsensitive: false});
  */
-const getCredentialString = (credential: Credential) => {
-    const { username, password, caseInsensitive } = credential || '';
+export const getCredentialString = (credential: Credential) => {
+    const { username, password, caseInsensitive } = credential;
 
     return caseInsensitive
         ? getAllCasePermutations(username)
@@ -74,20 +76,26 @@ export const writeAuthFile = (
     content: string,
     directory: string | undefined,
 ): Promise<string> =>
-    new Promise((resolve, reject) => {
+    new Promise(async (resolve, reject) => {
         const outDir = path.resolve(directory ? directory : '');
-        if (!fs.existsSync(outDir)) {
-            fs.mkdirSync(outDir, { recursive: true });
-        }
         const outPath = path.resolve(outDir, 'AUTH');
-        fs.writeFile(outPath, content, (error) => {
-            if (error) {
-                reject(error);
-            } else {
-                console.log(`File generated at ${outPath}`);
-                resolve(outPath);
-            }
+
+        const writeFile = (): Promise<string> => new Promise((res, rej) => {
+            fs.promises.writeFile(outPath, content)
+                .then(() => {
+                    console.log(`File generated at ${outPath}`);
+                    resolve(outPath);
+                })
+                .catch(error => reject(error));
         });
+
+        if (!fs.existsSync(outDir)) {
+            await fs.promises.mkdir(outDir, { recursive: true })
+                .catch(error => reject('Invalid path'));
+            return writeFile();
+        } else {
+            return writeFile();
+        }
     });
 
 /**
@@ -101,11 +109,9 @@ export const generate = (
 ): Promise<string> =>
     new Promise(async (resolve, reject) => {
         console.log('Generating AUTH file...');
-        if (!directory && typeof require.main !== 'undefined') {
+        if (!directory) {
             // set output directory to app root when no directory specified
             directory = appRoot.path;
-        } else if (!directory) {
-            directory = '';
         }
         directory = path.resolve(directory);
 
@@ -121,7 +127,7 @@ export const generate = (
                 }case sensitive)`;
             console.log(
                 `${username
-                    ? `Set username: ${username}${username ? caseSensitiveString : ''}`
+                    ? `Set username: ${username}${caseSensitiveString}`
                     : 'No username set.'} (${caseSensitiveString})`);
             console.log(
                 `${password ? `Set password: ${password}` : 'No password set.'}`,

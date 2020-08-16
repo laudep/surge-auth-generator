@@ -1,8 +1,9 @@
-import rewire = require('rewire');
+// import rewire = require('rewire');
 
-const lib = rewire('../index');
-const getCredentialString = lib.__get__('getCredentialString');
+// const lib = rewire('../index');
+// const getCredentialString = lib.__get__('getCredentialString');
 
+import { getCredentialString } from '../index';
 const testCredential = {
   username: 'test',
   password: 'test',
@@ -22,7 +23,7 @@ test('standard case sensitive credentials to string', () => {
 });
 
 test('empty credentials to string', () => {
-  expect(getCredentialString()).toEqual(':');
+  expect(getCredentialString({})).toEqual(':');
 });
 
 test('case insensitive credentials to string', () => {

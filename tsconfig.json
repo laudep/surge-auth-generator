@@ -6,8 +6,9 @@
     "strict": true,
     "declaration": true,
     "outDir": "./lib",
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "inlineSourceMap": true
   },
-  "include": ["src"],
+  "include": ["src", "docs"],
   "exclude": ["node_modules", "**/__tests__/*"]
 }
