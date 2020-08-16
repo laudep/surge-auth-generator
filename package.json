@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "jest --config jestconfig.json && codecov -t 100a4184-44dd-4006-80bf-5c8e48280712",
+    "test": "jest --config jestconfig.json && codecov",
     "build": "tsc",
     "docs": "typedoc --theme markdown --readme none --mode file",
     "format": "prettier --write \"src/**/*.{ts,js}\"",
