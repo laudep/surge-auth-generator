@@ -88,11 +88,11 @@ export const writeAuthFile = (
 
 /**
  * @description Write an AUTH file with given credentials
- * @param credentials the credentials to be written
- * @param [directory=require.main.filename] the string for which to determine permutations (defaults to project root)
+ * @param [credentials={}] the credentials to be written
+ * @param [directory=require.main.filename] the output directory (defaults to project root)
  */
 export const generate = (
-    credentials: Credential | Credential[],
+    credentials: Credential | Credential[] = {},
     directory?: string,
 ): Promise<string> =>
     new Promise(async (resolve, reject) => {

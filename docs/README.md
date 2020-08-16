@@ -1,8 +1,11 @@
+[surge-auth-generator](README.md) › [Globals](globals.md)
+
+# surge-auth-generator
+
 # surge-auth-generator
 > Generate AUTH files for basic authentication in surge.sh projects
 
 [![NPM Version][npm-image]][npm-url]
-
 
 ## Installation
 ``` bash
