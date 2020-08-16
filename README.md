@@ -8,7 +8,11 @@
 
 [![NPM Version][npm-image]][npm-url]
 
-
+## Description
+surge-auth-generator helps generate AUTH files for setting up basic authentication on surge.sh projects.  
+It makes supporting multiple- and/or case insensitive users a breeze.  
+For more info see [surge help](https://surge.sh/help/adding-password-protection-to-a-project).
+> <img width="400" src="https://surge.sh/images/help/adding-password-protection-to-a-project.gif">
 ## Installation
 ``` bash
 $ npm install --save-dev surge-auth-generator
@@ -60,6 +64,8 @@ authGenerator.generate(
         password: 'bar'
     }], "dist");
 ```
+
+## Documentation
 ### Credentials
 The package works with a custom object type for authentication credentials.  
 Each property is optional and can be left out.  
