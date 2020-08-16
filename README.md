@@ -8,6 +8,8 @@
 
 [![NPM Version][npm-image]][npm-url]
 [![codecov](https://codecov.io/gh/laudep/surge-auth-generator/branch/master/graph/badge.svg)](https://codecov.io/gh/laudep/surge-auth-generator)
+![Github Actions](https://github.com/laudep/surge-auth-generator/workflows/CI/badge.svg)
+
 ## Description
 surge-auth-generator helps generate AUTH files for setting up basic authentication on surge.sh projects.  
 It makes supporting multiple- and/or case insensitive users a breeze.  
