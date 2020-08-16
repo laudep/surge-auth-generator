@@ -2,3 +2,4 @@ node_modules
 /lib
 **/AUTH
 /__tests__/tmp/
+coverage/
