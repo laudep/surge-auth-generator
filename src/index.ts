@@ -77,7 +77,7 @@ export const writeAuthFile = (
     new Promise((resolve, reject) => {
         const outDir = path.resolve(directory ? directory : '');
         if (!fs.existsSync(outDir)) {
-            fs.mkdirSync(outDir);
+            fs.mkdirSync(outDir, { recursive: true });
         }
         const outPath = path.resolve(outDir, 'AUTH');
         fs.writeFile(outPath, content, (error) => {
