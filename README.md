@@ -101,7 +101,7 @@ const generate: (credentials?: Credential | Credential[], directory?: string | u
 
 ## License
 
-[MIT](https://opensource.org/licenses/MIT)
+[MIT](./LICENSE)
 
 [npm-badge]: https://img.shields.io/npm/v/surge-auth-generator.svg
 [npm-url]: https://www.npmjs.com/package/surge-auth-generator
