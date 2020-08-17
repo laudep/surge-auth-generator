@@ -7,10 +7,10 @@
 </p>
 
 [![NPM Version][npm-badge]][npm-url] 
-[![License][license-badge]][license-url]
+[![Github Actions][gh-actions-badge]][gh-actions-url]
+[![Dependency Status][libraries-badge]][libraries-url]
 [![Codecov][codecov-badge]][codecov-url]
-[![Github Actions][actions-badge]][actions-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
+<!-- [![License][license-badge]][license-url] -->
 
 ## Description
 surge-auth-generator helps generate AUTH files for setting up basic authentication on surge.sh projects.  
@@ -105,11 +105,11 @@ const generate: (credentials?: Credential | Credential[], directory?: string | u
 
 [npm-badge]: https://img.shields.io/npm/v/surge-auth-generator.svg
 [npm-url]: https://www.npmjs.com/package/surge-auth-generator
-[license-badge]: https://img.shields.io/github/license/laudep/surge-auth-generator
-[license-url]: https://github.com/laudep/surge-auth-generator/blob/master/LICENSE
+[libraries-badge]: https://img.shields.io/librariesio/release/npm/surge-auth-generator
+[libraries-url]: https://libraries.io/github/laudep/surge-auth-generator
 [codecov-badge]: https://codecov.io/gh/laudep/surge-auth-generator/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/laudep/surge-auth-generator
-[actions-badge]: https://github.com/laudep/surge-auth-generator/workflows/CI/badge.svg
-[actions-url]: https://github.com/laudep/surge-auth-generator/actions
-[daviddm-image]: https://img.shields.io/david/dev/laudep/surge-auth-generator
-[daviddm-url]: https://david-dm.org/laudep/surge-auth-generator
+[gh-actions-badge]: https://img.shields.io/github/workflow/status/laudep/surge-auth-generator/CI
+[gh-actions-url]: https://github.com/laudep/surge-auth-generator/actions
+<!-- [license-badge]: https://img.shields.io/github/license/laudep/surge-auth-generator
+[license-url]: https://opensource.org/licenses/MIT -->
