@@ -108,5 +108,5 @@ const generate: (credentials?: Credential | Credential[], directory?: string | u
 [codecov-url]: https://codecov.io/gh/laudep/surge-auth-generator
 [actions-badge]: https://github.com/laudep/surge-auth-generator/workflows/CI/badge.svg
 [actions-url]: https://github.com/laudep/surge-auth-generator/actions
-[daviddm-image]: https://david-dm.org/laudep/surge-auth-generator.svg
+[daviddm-image]: https://img.shields.io/david/dev/laudep/surge-auth-generator
 [daviddm-url]: https://david-dm.org/laudep/surge-auth-generator
