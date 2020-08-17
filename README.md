@@ -9,6 +9,7 @@
 [![NPM Version][npm-image]][npm-url]
 [![Codecov][codecov-badge]][codecov-url]
 [![Github Actions][actions-badge]][actions-url]
+[![Dependency Status][daviddm-image]][daviddm-url]
 
 ## Description
 surge-auth-generator helps generate AUTH files for setting up basic authentication on surge.sh projects.  
@@ -105,6 +106,7 @@ const generate: (credentials?: Credential | Credential[], directory?: string | u
 [npm-url]: https://www.npmjs.com/package/surge-auth-generator
 [codecov-badge]: https://codecov.io/gh/laudep/surge-auth-generator/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/laudep/surge-auth-generator
-
 [actions-badge]: https://github.com/laudep/surge-auth-generator/workflows/CI/badge.svg
 [actions-url]: https://github.com/laudep/surge-auth-generator/actions
+[daviddm-image]: https://david-dm.org/laudep/surge-auth-generator.svg
+[daviddm-url]: https://david-dm.org/laudep/surge-auth-generator
