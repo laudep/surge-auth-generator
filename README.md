@@ -6,7 +6,8 @@
   <b>Generate AUTH files for basic authentication in surge.sh projects</b>
 </p>
 
-[![NPM Version][npm-image]][npm-url]
+[![NPM Version][npm-badge]][npm-url] 
+[![License][license-badge]][license-url]
 [![Codecov][codecov-badge]][codecov-url]
 [![Github Actions][actions-badge]][actions-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
@@ -102,8 +103,10 @@ const generate: (credentials?: Credential | Credential[], directory?: string | u
 
 [MIT](https://opensource.org/licenses/MIT)
 
-[npm-image]: https://img.shields.io/npm/v/surge-auth-generator.svg
+[npm-badge]: https://img.shields.io/npm/v/surge-auth-generator.svg
 [npm-url]: https://www.npmjs.com/package/surge-auth-generator
+[license-badge]: https://img.shields.io/github/license/laudep/surge-auth-generator
+[license-url]: https://github.com/laudep/surge-auth-generator/blob/master/LICENSE
 [codecov-badge]: https://codecov.io/gh/laudep/surge-auth-generator/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/laudep/surge-auth-generator
 [actions-badge]: https://github.com/laudep/surge-auth-generator/workflows/CI/badge.svg
