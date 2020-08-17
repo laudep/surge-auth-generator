@@ -144,6 +144,5 @@ export const generate = (
       fileContents = getCredentialString(credentials);
     }
 
-    writeAuthFile(fileContents, directory)
-      .then((res) => resolve(res));
+    writeAuthFile(fileContents, directory).then((res) => resolve(res));
   });

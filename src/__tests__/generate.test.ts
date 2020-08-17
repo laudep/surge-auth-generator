@@ -110,7 +110,9 @@ test('create auth file in app root', async () => {
 });
 
 test('write auth file with incorrect path', () => {
-  expect(() => writeAuthFile('test', '/-+/:;/')).rejects.toEqual('Invalid path');
+  expect(() => writeAuthFile('test', '/-+/:;/')).rejects.toEqual(
+    'Invalid path',
+  );
 });
 
 test('write auth file without specifying path', async () => {
