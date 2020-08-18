@@ -9,7 +9,7 @@ import { resolve } from 'app-root-path';
  *
  * @interface Credential
  */
-interface Credential {
+export interface Credential {
   /** authentication username */
   username?: string;
   /** authentication password */

@@ -2,7 +2,7 @@ import fs = require('fs');
 import path = require('path');
 import del = require('del');
 import appRoot = require('app-root-path');
-import { generate, getCredentialString, writeAuthFile } from '../index';
+import { generate, getCredentialString, writeAuthFile, Credential } from '../index';
 
 const tmpDir = path.resolve(__dirname, 'tmp');
 const testDir1 = path.resolve(__dirname, 'tmp/test1');
@@ -45,7 +45,7 @@ const readFile = (filePath: string): Promise<string | Buffer> =>
     );
   });
 
-const testCredential = {
+const testCredential: Credential = {
   username: 'test',
   password: 'test',
 };
@@ -113,8 +113,8 @@ test('create auth file in app root', async () => {
 });
 
 test('write auth file with incorrect path', () => {
-  expect(() => writeAuthFile('test', '/-+/:;/')).rejects.toEqual(
-    'Invalid path',
+  expect(() => writeAuthFile('test', '/-+/:;/')).rejects.toHaveProperty(
+    'message', 'Invalid path',
   );
 });
 
@@ -124,21 +124,34 @@ test('write auth file without specifying path', async () => {
 });
 
 test('generate auth file with incorrect path and empty username', () => {
-  expect(() => generate({ username: '' }, '/-+/:;/')).rejects.toEqual(
-    'Invalid path',
+  expect(() => generate({ username: '' }, '/-+/:;/')).rejects.toHaveProperty(
+    'message', 'Invalid path',
   );
 });
 
-test('generate auth file in read only folder ', async () => {
-  await fs.promises.mkdir(testDir5, '444');
-  await expect(generate(testCredential, testDir5)).rejects.toHaveProperty('code', 'EACCES')
-  await fs.promises.chmod(testDir5, '777');
-});
+const expectPermissionError = async (credential: Credential, readonlyDir: string, testDir?: string) => {
+  await fs.promises.mkdir(readonlyDir, '444');
+  await expect(generate(credential, testDir ? testDir : readonlyDir))
+    .rejects.toHaveProperty('code', 'EACCES')
+  await fs.promises.mkdir(readonlyDir, '777');
+}
 
-test('generate auth file in new subfolder of read only folder ', async () => {
-  await fs.promises.mkdir(testDir6, '444');
-  await expect(generate(testCredential, testDir7)).rejects.toHaveProperty('code', 'EACCES')
-  await fs.promises.chmod(testDir6, '777');
-});
+if (process.platform !== "win32") {
+  test('generate auth file in read only folder ', async () => {
+    await expectPermissionError(testCredential, testDir5);
+  });
+
+  test('generate auth file in new subfolder of read only folder ', async () => {
+    await expectPermissionError(testCredential, testDir6, testDir7);
+  });
+} else {
+  test('generate auth file on C:\\', async () => {
+    await expect(generate(testCredential, "C:\\"))
+      .rejects.toHaveProperty('code', 'EPERM')
+  });
+
+}
+
+
 
 afterAll(async () => await del([tmpDir, appRoot.resolve('AUTH'), authInCwd]));
