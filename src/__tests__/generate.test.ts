@@ -9,6 +9,9 @@ const testDir1 = path.resolve(__dirname, 'tmp/test1');
 const testDir2 = path.resolve(__dirname, 'tmp/test2');
 const testDir3 = path.resolve(__dirname, 'tmp/test3');
 const testDir4 = path.resolve(__dirname, 'tmp/test4/test');
+const testDir5 = path.resolve(__dirname, 'tmp/test5');
+const testDir6 = path.resolve(__dirname, 'tmp/test6');
+const testDir7 = path.resolve(testDir6, 'new');
 const authFile1 = path.resolve(testDir1, 'AUTH');
 const authFile2 = path.resolve(testDir2, 'AUTH');
 const authFile3 = path.resolve(testDir3, 'AUTH');
@@ -124,6 +127,18 @@ test('generate auth file with incorrect path and empty username', () => {
   expect(() => generate({ username: '' }, '/-+/:;/')).rejects.toEqual(
     'Invalid path',
   );
+});
+
+test('generate auth file in read only folder ', async () => {
+  await fs.promises.mkdir(testDir5, '444');
+  await expect(generate(testCredential, testDir5)).rejects.toHaveProperty('code', 'EACCES')
+  await fs.promises.chmod(testDir5, '777');
+});
+
+test('generate auth file in new subfolder of read only folder ', async () => {
+  await fs.promises.mkdir(testDir6, '444');
+  await expect(generate(testCredential, testDir7)).rejects.toHaveProperty('code', 'EACCES')
+  await fs.promises.chmod(testDir6, '777');
 });
 
 afterAll(async () => await del([tmpDir, appRoot.resolve('AUTH'), authInCwd]));
