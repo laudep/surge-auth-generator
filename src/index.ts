@@ -65,8 +65,8 @@ export const getCredentialString = (credential: Credential) => {
 
   return caseInsensitive
     ? getAllCasePermutations(username)
-        .map((name) => `${name}:${password || ''}`)
-        .join('\n')
+      .map((name) => `${name}:${password || ''}`)
+      .join('\n')
     : `${username || ''}:${password || ''}`;
 };
 
@@ -79,26 +79,27 @@ export const getCredentialString = (credential: Credential) => {
  * @returns promise resolving in the full path of the written file
  */
 const writeFile = (filePath: string, content: string): Promise<string | NodeJS.ErrnoException> =>
-new Promise((resolve, reject) => {
-  fs.promises
-    .writeFile(filePath, content)
-    .then(() => {
-      console.log(`File generated at ${filePath}`);
-      resolve(filePath);
-    })
-    .catch((error) => reject(error));
-});
+  new Promise((resolveWrite, rejectWrite) => {
+    fs.promises
+      .writeFile(filePath, content)
+      .then(() => {
+        console.log(`File generated at ${filePath}`);
+        resolveWrite(filePath);
+      })
+      .catch((error) => rejectWrite(error));
+  });
 
 
 /**
  * @description Creates a directory if it doesn't exist yet
- * @param path the path of the directory
+ * @param directoryPath the path of the directory
  * @returns promise
  */
- const createDirectoryIfNotExist = async (path: string) => {
-  const directoryExists = await fs.promises.access(path).then(() => true).catch(() => false);
+const createDirectoryIfNotExist = async (directoryPath: string) => {
+  const directoryExists = await fs.promises.access(directoryPath)
+    .then(() => true).catch(() => false);
   if (!directoryExists) {
-    await fs.promises.mkdir(path, { recursive: true });
+    await fs.promises.mkdir(directoryPath, { recursive: true });
   }
 }
 
@@ -112,18 +113,18 @@ new Promise((resolve, reject) => {
 export const writeAuthFile = async (
   content: string,
   directory: string | undefined,
-): Promise<string | NodeJS.ErrnoException>   =>   {
-    const outDir = path.resolve(directory ? directory : '');
-    const outPath = path.resolve(outDir, 'AUTH');
+): Promise<string | NodeJS.ErrnoException> => {
+  const outDir = path.resolve(directory ? directory : '');
+  const outPath = path.resolve(outDir, 'AUTH');
 
-    // check whether path contains invalid characters
-    if (!isValid(outDir)) {
-      throw('Invalid path');
-    }
+  // check whether path contains invalid characters
+  if (!isValid(outDir)) {
+    throw new Error('Invalid path');
+  }
 
-    await createDirectoryIfNotExist(outDir);
-    return await writeFile(outPath, content);
-  };
+  await createDirectoryIfNotExist(outDir);
+  return await writeFile(outPath, content);
+};
 
 /**
  * @description Resolves a directory path
@@ -146,12 +147,12 @@ const logCredential = (credential: Credential) => {
   const { username, password, caseInsensitive } = credential;
   const caseSensitiveString = ` (${
     caseInsensitive ? 'not ' : ''
-  }case sensitive)`;
+    }case sensitive)`;
   console.log(
     `${
-      username
-        ? `Set username: ${username}${caseSensitiveString}`
-        : 'No username set.'
+    username
+      ? `Set username: ${username}${caseSensitiveString}`
+      : 'No username set.'
     } (${caseSensitiveString})`,
   );
   console.log(
@@ -168,13 +169,13 @@ export const generate = (
   credentials: Credential | Credential[] = {},
   directory?: string,
 ): Promise<string | NodeJS.ErrnoException> =>
-  new Promise(async (resolve, reject) => {
+  new Promise(async (resolveGenerate, rejectGenerate) => {
     console.log('Generating AUTH file...');
 
     const fileContents = Array.isArray(credentials)
       ? credentials
-          .map((credential) => getCredentialString(credential))
-          .join('\n')
+        .map((credential) => getCredentialString(credential))
+        .join('\n')
       : getCredentialString(credentials);
 
     Array.isArray(credentials)
@@ -182,6 +183,6 @@ export const generate = (
       : logCredential(credentials);
 
     writeAuthFile(fileContents, resolveDirectory(directory))
-      .then((path) => resolve(path))
-      .catch((error) => reject(error));
+      .then((authFilePath) => resolveGenerate(authFilePath))
+      .catch((error) => rejectGenerate(error));
   });
