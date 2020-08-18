@@ -135,7 +135,7 @@ test('generate auth file with incorrect path and empty username', () => {
 });
 
 const expectPermissionError = async (credential: Credential, readonlyDir: string, testDir?: string) => {
-  await fs.promises.mkdir(readonlyDir, '774');
+  await fs.promises.mkdir(readonlyDir, '444');
   await expect(generate(credential, testDir ? testDir : readonlyDir))
     .rejects.toHaveProperty('code', 'EACCES')
   await fs.promises.mkdir(readonlyDir, '777');
