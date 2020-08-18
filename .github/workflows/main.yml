@@ -22,3 +22,5 @@ jobs:
       - run: npm test
       - uses: codecov/codecov-action@v1
       - uses: paambaati/codeclimate-action@v2.5.7
+        env:
+          CC_TEST_REPORTER_ID
