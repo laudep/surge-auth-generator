@@ -9,6 +9,6 @@
     "strictNullChecks": true,
     "inlineSourceMap": true
   },
-  "include": ["src", "docs"],
+  "include": ["src", "docs", "src/decs.d.ts"],
   "exclude": ["node_modules", "**/__tests__/*"]
 }
