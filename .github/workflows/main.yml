@@ -20,4 +20,5 @@ jobs:
           node-version: '12'
       - run: npm install
       - run: npm test
-      - uses: codecov/codecov-action@v1, paambaati/codeclimate-action@v2.5.7
+      - uses: codecov/codecov-action@v1
+      - users: paambaati/codeclimate-action@v2.5.7
