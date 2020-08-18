@@ -1,6 +1,8 @@
 import fs = require('fs');
 import path = require('path');
 import appRoot = require('app-root-path');
+import isValid = require('is-valid-path');
+import { resolve } from 'app-root-path';
 
 /**
  * User authentication credentials
@@ -68,40 +70,94 @@ export const getCredentialString = (credential: Credential) => {
     : `${username || ''}:${password || ''}`;
 };
 
+
+
+/**
+ * @description Writes a file to the filesystem
+ * @param filePath the full path of the file
+ * @param content the file contents
+ * @returns promise resolving in the full path of the written file
+ */
+const writeFile = (filePath: string, content: string): Promise<string | NodeJS.ErrnoException> =>
+new Promise((resolve, reject) => {
+  fs.promises
+    .writeFile(filePath, content)
+    .then(() => {
+      console.log(`File generated at ${filePath}`);
+      resolve(filePath);
+    })
+    .catch((error) => reject(error));
+});
+
+
+/**
+ * @description Creates a directory if it doesn't exist yet
+ * @param path the path of the directory
+ * @returns promise
+ */
+ const createDirectoryIfNotExist = async (path: string) => {
+  const directoryExists = await fs.promises.access(path).then(() => true).catch(() => false);
+  if (!directoryExists) {
+    await fs.promises.mkdir(path, { recursive: true });
+  }
+}
+
+
 /**
  * @description Write an AUTH file to the file system
  * @param content the file contents
  * @param directory the output directory
  * @returns promise resolving in the full path of the written file
  */
-export const writeAuthFile = (
+export const writeAuthFile = async (
   content: string,
   directory: string | undefined,
-): Promise<string> =>
-  new Promise(async (resolve, reject) => {
+): Promise<string | NodeJS.ErrnoException>   =>   {
     const outDir = path.resolve(directory ? directory : '');
     const outPath = path.resolve(outDir, 'AUTH');
 
-    const writeFile = (): Promise<string> =>
-      new Promise((res, rej) => {
-        fs.promises
-          .writeFile(outPath, content)
-          .then(() => {
-            console.log(`File generated at ${outPath}`);
-            resolve(outPath);
-          })
-          .catch((error) => reject(error));
-      });
-
-    if (!fs.existsSync(outDir)) {
-      await fs.promises
-        .mkdir(outDir, { recursive: true })
-        .catch((error) => reject('Invalid path'));
-      return writeFile();
-    } else {
-      return writeFile();
+    // check whether path contains invalid characters
+    if (!isValid(outDir)) {
+      throw('Invalid path');
     }
-  });
+
+    await createDirectoryIfNotExist(outDir);
+    return await writeFile(outPath, content);
+  };
+
+/**
+ * @description Resolves a directory path
+ * @param [passedDirectory] the path to be solved
+ * @returns the resolved directory or the current app root when no directory supplied)
+ */
+const resolveDirectory = (passedDirectory?: string) => {
+  if (!passedDirectory) {
+    // set output directory to app root when no directory specified
+    passedDirectory = appRoot.path;
+  }
+  return path.resolve(passedDirectory);
+};
+
+/**
+ * @description Logs a credential to console
+ * @param credential the credential to be logged
+ */
+const logCredential = (credential: Credential) => {
+  const { username, password, caseInsensitive } = credential;
+  const caseSensitiveString = ` (${
+    caseInsensitive ? 'not ' : ''
+  }case sensitive)`;
+  console.log(
+    `${
+      username
+        ? `Set username: ${username}${caseSensitiveString}`
+        : 'No username set.'
+    } (${caseSensitiveString})`,
+  );
+  console.log(
+    `${password ? `Set password: ${password}` : 'No password set.'}`,
+  );
+};
 
 /**
  * @description Write an AUTH file with given credentials
@@ -111,38 +167,21 @@ export const writeAuthFile = (
 export const generate = (
   credentials: Credential | Credential[] = {},
   directory?: string,
-): Promise<string> =>
+): Promise<string | NodeJS.ErrnoException> =>
   new Promise(async (resolve, reject) => {
     console.log('Generating AUTH file...');
-    if (!directory) {
-      // set output directory to app root when no directory specified
-      directory = appRoot.path;
-    }
-    directory = path.resolve(directory);
 
-    let fileContents = '';
-    if (Array.isArray(credentials)) {
-      fileContents = credentials
-        .map((credential) => getCredentialString(credential))
-        .join('\n');
-    } else {
-      const { username, password, caseInsensitive } = credentials;
-      const caseSensitiveString = ` (${
-        caseInsensitive ? 'not ' : ''
-      }case sensitive)`;
-      console.log(
-        `${
-          username
-            ? `Set username: ${username}${caseSensitiveString}`
-            : 'No username set.'
-        } (${caseSensitiveString})`,
-      );
-      console.log(
-        `${password ? `Set password: ${password}` : 'No password set.'}`,
-      );
+    const fileContents = Array.isArray(credentials)
+      ? credentials
+          .map((credential) => getCredentialString(credential))
+          .join('\n')
+      : getCredentialString(credentials);
 
-      fileContents = getCredentialString(credentials);
-    }
+    Array.isArray(credentials)
+      ? console.log('Multiple credentials set.')
+      : logCredential(credentials);
 
-    writeAuthFile(fileContents, directory).then((res) => resolve(res));
+    writeAuthFile(fileContents, resolveDirectory(directory))
+      .then((path) => resolve(path))
+      .catch((error) => reject(error));
   });
