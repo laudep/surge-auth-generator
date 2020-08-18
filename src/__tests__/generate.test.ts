@@ -2,7 +2,12 @@ import fs = require('fs');
 import path = require('path');
 import del = require('del');
 import appRoot = require('app-root-path');
-import { generate, getCredentialString, writeAuthFile, Credential } from '../index';
+import {
+  generate,
+  getCredentialString,
+  writeAuthFile,
+  Credential,
+} from '../index';
 
 const tmpDir = path.resolve(__dirname, 'tmp');
 const testDir1 = path.resolve(__dirname, 'tmp/test1');
@@ -18,9 +23,7 @@ const authFile3 = path.resolve(testDir3, 'AUTH');
 const authFile4 = path.resolve(testDir4, 'AUTH');
 const authInCwd = path.resolve(process.cwd(), 'AUTH');
 
-
 const cleanup = async () => del([tmpDir, appRoot.resolve('AUTH'), authInCwd]);
-
 
 /**
  * @description Create a directory if it doesn't exist
@@ -119,7 +122,8 @@ test('create auth file in app root', async () => {
 
 test('write auth file with incorrect path', () => {
   expect(() => writeAuthFile('test', '/-+/:;/')).rejects.toHaveProperty(
-    'message', 'Invalid path',
+    'message',
+    'Invalid path',
   );
 });
 
@@ -130,18 +134,24 @@ test('write auth file without specifying path', async () => {
 
 test('generate auth file with incorrect path and empty username', () => {
   expect(() => generate({ username: '' }, '/-+/:;/')).rejects.toHaveProperty(
-    'message', 'Invalid path',
+    'message',
+    'Invalid path',
   );
 });
 
-const expectPermissionError = async (credential: Credential, readonlyDir: string, testDir?: string) => {
+const expectPermissionError = async (
+  credential: Credential,
+  readonlyDir: string,
+  testDir?: string,
+) => {
   await fs.promises.mkdir(readonlyDir, '444');
-  await expect(generate(credential, testDir ? testDir : readonlyDir))
-    .rejects.toHaveProperty('code', 'EACCES')
+  await expect(
+    generate(credential, testDir ? testDir : readonlyDir),
+  ).rejects.toHaveProperty('code', 'EACCES');
   await fs.promises.chmod(readonlyDir, '777');
-}
+};
 
-if (process.platform !== "win32") {
+if (process.platform !== 'win32') {
   test('generate auth file in read only folder ', async () => {
     await expectPermissionError(testCredential, testDir5);
   });
@@ -151,10 +161,11 @@ if (process.platform !== "win32") {
   });
 } else {
   test('generate auth file on C:\\', async () => {
-    await expect(generate(testCredential, "C:\\"))
-      .rejects.toHaveProperty('code', 'EPERM')
+    await expect(generate(testCredential, 'C:\\')).rejects.toHaveProperty(
+      'code',
+      'EPERM',
+    );
   });
-
 }
 
 afterAll(async () => await cleanup());

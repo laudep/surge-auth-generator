@@ -65,12 +65,10 @@ export const getCredentialString = (credential: Credential) => {
 
   return caseInsensitive
     ? getAllCasePermutations(username)
-      .map((name) => `${name}:${password || ''}`)
-      .join('\n')
+        .map((name) => `${name}:${password || ''}`)
+        .join('\n')
     : `${username || ''}:${password || ''}`;
 };
-
-
 
 /**
  * @description Writes a file to the filesystem
@@ -78,7 +76,10 @@ export const getCredentialString = (credential: Credential) => {
  * @param content the file contents
  * @returns promise resolving in the full path of the written file
  */
-const writeFile = (filePath: string, content: string): Promise<string | NodeJS.ErrnoException> =>
+const writeFile = (
+  filePath: string,
+  content: string,
+): Promise<string | NodeJS.ErrnoException> =>
   new Promise((resolveWrite, rejectWrite) => {
     fs.promises
       .writeFile(filePath, content)
@@ -89,20 +90,20 @@ const writeFile = (filePath: string, content: string): Promise<string | NodeJS.E
       .catch((error) => rejectWrite(error));
   });
 
-
 /**
  * @description Creates a directory if it doesn't exist yet
  * @param directoryPath the path of the directory
  * @returns promise
  */
 const createDirectoryIfNotExist = async (directoryPath: string) => {
-  const directoryExists = await fs.promises.access(directoryPath)
-    .then(() => true).catch(() => false);
+  const directoryExists = await fs.promises
+    .access(directoryPath)
+    .then(() => true)
+    .catch(() => false);
   if (!directoryExists) {
     await fs.promises.mkdir(directoryPath, { recursive: true });
   }
-}
-
+};
 
 /**
  * @description Write an AUTH file to the file system
@@ -147,12 +148,12 @@ const logCredential = (credential: Credential) => {
   const { username, password, caseInsensitive } = credential;
   const caseSensitiveString = ` (${
     caseInsensitive ? 'not ' : ''
-    }case sensitive)`;
+  }case sensitive)`;
   console.log(
     `${
-    username
-      ? `Set username: ${username}${caseSensitiveString}`
-      : 'No username set.'
+      username
+        ? `Set username: ${username}${caseSensitiveString}`
+        : 'No username set.'
     } (${caseSensitiveString})`,
   );
   console.log(
@@ -174,8 +175,8 @@ export const generate = (
 
     const fileContents = Array.isArray(credentials)
       ? credentials
-        .map((credential) => getCredentialString(credential))
-        .join('\n')
+          .map((credential) => getCredentialString(credential))
+          .join('\n')
       : getCredentialString(credentials);
 
     Array.isArray(credentials)
