@@ -138,7 +138,7 @@ const expectPermissionError = async (credential: Credential, readonlyDir: string
   await fs.promises.mkdir(readonlyDir, '444');
   await expect(generate(credential, testDir ? testDir : readonlyDir))
     .rejects.toHaveProperty('code', 'EACCES')
-  await fs.promises.mkdir(readonlyDir, '777');
+  await fs.promises.chmod(readonlyDir, '777');
 }
 
 if (process.platform !== "win32") {
