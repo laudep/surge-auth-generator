@@ -2,7 +2,6 @@ import fs = require('fs');
 import path = require('path');
 import appRoot = require('app-root-path');
 import isValid = require('is-valid-path');
-import { resolve } from 'app-root-path';
 
 /**
  * User authentication credentials
