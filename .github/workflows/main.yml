@@ -23,4 +23,6 @@ jobs:
       - uses: codecov/codecov-action@v1
       - uses: paambaati/codeclimate-action@v2.5.7
         env:
-          CC_TEST_REPORTER_ID: 4e7bbea8201adc6820beaad5077fa7e5f003583f0b3e940f70c23c0bf581af46
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        with:
+          coverageCommand: npm test
