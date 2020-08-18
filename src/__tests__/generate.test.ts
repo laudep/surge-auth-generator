@@ -18,6 +18,10 @@ const authFile3 = path.resolve(testDir3, 'AUTH');
 const authFile4 = path.resolve(testDir4, 'AUTH');
 const authInCwd = path.resolve(process.cwd(), 'AUTH');
 
+
+const cleanup = async () => del([tmpDir, appRoot.resolve('AUTH'), authInCwd]);
+
+
 /**
  * @description Create a directory if it doesn't exist
  * @param directory the directory to check/create
@@ -28,7 +32,8 @@ const createIfNotExists = (directory: fs.PathLike) => {
   }
 };
 
-beforeAll(() => {
+beforeAll(async () => {
+  await cleanup();
   createIfNotExists(tmpDir);
   createIfNotExists(testDir1);
   createIfNotExists(testDir2);
@@ -152,6 +157,4 @@ if (process.platform !== "win32") {
 
 }
 
-
-
-afterAll(async () => await del([tmpDir, appRoot.resolve('AUTH'), authInCwd]));
+afterAll(async () => await cleanup());
