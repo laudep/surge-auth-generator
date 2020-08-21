@@ -64,8 +64,8 @@ export const getCredentialString = (credential: Credential) => {
 
   return caseInsensitive
     ? getAllCasePermutations(username)
-        .map((name) => `${name}:${password || ''}`)
-        .join('\n')
+      .map((name) => `${name}:${password || ''}`)
+      .join('\n')
     : `${username || ''}:${password || ''}`;
 };
 
@@ -123,7 +123,7 @@ export const writeAuthFile = async (
   }
 
   await createDirectoryIfNotExist(outDir);
-  return await writeFile(outPath, content);
+  return writeFile(outPath, content);
 };
 
 /**
@@ -145,19 +145,20 @@ const resolveDirectory = (passedDirectory?: string) => {
  */
 const logCredential = (credential: Credential) => {
   const { username, password, caseInsensitive } = credential;
-  const caseSensitiveString = ` (${
-    caseInsensitive ? 'not ' : ''
-  }case sensitive)`;
+  const caseSensitiveString = ` (${caseInsensitive
+    ? 'not '
+    : ''
+    }case sensitive)`;
+  const usernameString = `Set username: ${username}${caseSensitiveString}`;
+  const passwordString = `Set password: ${password}`;
+
   console.log(
-    `${
-      username
-        ? `Set username: ${username}${caseSensitiveString}`
-        : 'No username set.'
+    `${username
+      ? usernameString
+      : 'No username set.'
     } (${caseSensitiveString})`,
   );
-  console.log(
-    `${password ? `Set password: ${password}` : 'No password set.'}`,
-  );
+  console.log(`${password ? passwordString : 'No password set.'}`);
 };
 
 /**
@@ -174,8 +175,8 @@ export const generate = (
 
     const fileContents = Array.isArray(credentials)
       ? credentials
-          .map((credential) => getCredentialString(credential))
-          .join('\n')
+        .map((credential) => getCredentialString(credential))
+        .join('\n')
       : getCredentialString(credentials);
 
     Array.isArray(credentials)

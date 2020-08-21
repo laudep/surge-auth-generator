@@ -24,7 +24,7 @@ User authentication credentials
 
 • **caseInsensitive**? : *undefined | false | true*
 
-*Defined in [index.ts:18](https://github.com/laudep/surge-auth-generator/blob/cbaa17a/src/index.ts#L18)*
+*Defined in [src/index.ts:17](https://github.com/laudep/surge-auth-generator/blob/a226392/src/index.ts#L17)*
 
 whether the username should be case insensitive during authentication
 
@@ -34,7 +34,7 @@ ___
 
 • **password**? : *undefined | string*
 
-*Defined in [index.ts:16](https://github.com/laudep/surge-auth-generator/blob/cbaa17a/src/index.ts#L16)*
+*Defined in [src/index.ts:15](https://github.com/laudep/surge-auth-generator/blob/a226392/src/index.ts#L15)*
 
 authentication password
 
@@ -44,6 +44,6 @@ ___
 
 • **username**? : *undefined | string*
 
-*Defined in [index.ts:14](https://github.com/laudep/surge-auth-generator/blob/cbaa17a/src/index.ts#L14)*
+*Defined in [src/index.ts:13](https://github.com/laudep/surge-auth-generator/blob/a226392/src/index.ts#L13)*
 
 authentication username
