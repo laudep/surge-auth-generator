@@ -10,7 +10,6 @@
 [![Github Actions][gh-actions-badge]][gh-actions-url]
 [![Dependency Status][libraries-badge]][libraries-url]
 [![Codecov][codecov-badge]][codecov-url]
-<!-- [![License][license-badge]][license-url] -->
 
 ## Description
 surge-auth-generator helps generate AUTH files for setting up basic authentication on surge.sh projects.  
