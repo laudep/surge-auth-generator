@@ -38,7 +38,7 @@
   "devDependencies": {
     "@types/app-root-path": "^1.2.4",
     "@types/jest": "^26.0.14",
-    "@types/node": "^14.11.8",
+    "@types/node": "^14.14.2",
     "del": "^6.0.0",
     "jest": "^26.4.1",
     "prettier": "^2.1.2",
