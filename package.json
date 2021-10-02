@@ -9,7 +9,7 @@
     "test": "jest --config jestconfig.json",
     "test-cov": "jest --config jestconfig.json && codecov",
     "build": "tsc",
-    "docs": "typedoc --theme markdown --readme none --mode file",
+    "docs": "typedoc --theme markdown --readme none",
     "format": "prettier --write \"src/**/*.{ts,js}\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
