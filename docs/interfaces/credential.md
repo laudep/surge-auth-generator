@@ -1,4 +1,4 @@
-[surge-auth-generator](../README.md) › [Credential](credential.md)
+[surge-auth-generator](../README.md) / Credential
 
 # Interface: Credential
 
@@ -6,44 +6,46 @@ User authentication credentials
 
 **`interface`** Credential
 
-## Hierarchy
-
-* **Credential**
-
-## Index
+## Table of contents
 
 ### Properties
 
-* [caseInsensitive](credential.md#optional-caseinsensitive)
-* [password](credential.md#optional-password)
-* [username](credential.md#optional-username)
+- [caseInsensitive](Credential.md#caseinsensitive)
+- [password](Credential.md#password)
+- [username](Credential.md#username)
 
 ## Properties
 
-### `Optional` caseInsensitive
+### caseInsensitive
 
-• **caseInsensitive**? : *undefined | false | true*
-
-*Defined in [src/index.ts:17](https://github.com/laudep/surge-auth-generator/blob/a226392/src/index.ts#L17)*
+• `Optional` **caseInsensitive**: `boolean`
 
 whether the username should be case insensitive during authentication
 
+#### Defined in
+
+[index.ts:17](https://github.com/laudep/surge-auth-generator/blob/14e13ea/src/index.ts#L17)
+
 ___
 
-### `Optional` password
+### password
 
-• **password**? : *undefined | string*
-
-*Defined in [src/index.ts:15](https://github.com/laudep/surge-auth-generator/blob/a226392/src/index.ts#L15)*
+• `Optional` **password**: `string`
 
 authentication password
 
+#### Defined in
+
+[index.ts:15](https://github.com/laudep/surge-auth-generator/blob/14e13ea/src/index.ts#L15)
+
 ___
 
-### `Optional` username
+### username
 
-• **username**? : *undefined | string*
-
-*Defined in [src/index.ts:13](https://github.com/laudep/surge-auth-generator/blob/a226392/src/index.ts#L13)*
+• `Optional` **username**: `string`
 
 authentication username
+
+#### Defined in
+
+[index.ts:13](https://github.com/laudep/surge-auth-generator/blob/14e13ea/src/index.ts#L13)
